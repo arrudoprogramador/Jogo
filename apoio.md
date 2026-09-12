@@ -5,6 +5,7 @@
 **Versão:** 2.0 Professional Edition  
 **Data:** Setembro 2026
 
+
 ---
 
 ## 📋 VISÃO GERAL
