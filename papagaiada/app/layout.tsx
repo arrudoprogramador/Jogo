@@ -15,11 +15,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PAPAGAIADA — Cassino Premium (fictício)",
+  title: "Vegas Prime — Cassino Premium (fictício)",
   description:
-    "Roleta europeia e caça-níqueis 100% fictícios, com visual premium. Jogue com penas, sem dinheiro real.",
-  applicationName: "PAPAGAIADA",
-  keywords: ["cassino", "roleta", "caça-níqueis", "jogo", "fictício", "premium"],
+    "Roleta europeia, caça-níqueis e Aviator 100% fictícios, com visual premium. Jogue com penas, sem dinheiro real.",
+  applicationName: "Vegas Prime",
+  keywords: ["cassino", "roleta", "caça-níqueis", "aviator", "jogo", "fictício", "premium"],
 };
 
 export default function RootLayout({

@@ -1478,3 +1478,87 @@ input {
 .bet-zone.has-bet {
   box-shadow: 0 0 10px var(--gold-glow);
 }
+
+/* ---------- Aviator ---------- */
+.aviator-sky {
+  position: relative;
+  height: 320px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #0b2a52 0%, #123a6b 32%, #1b4f8a 55%, #f0b45a 88%, #f6d27a 100%);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.55);
+}
+
+.aviator-plane {
+  position: absolute;
+  font-size: 52px;
+  line-height: 1;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+  transition: left 0.42s ease-out, top 0.3s ease-in, transform 0.3s ease-out;
+  will-change: left, top, transform;
+}
+
+.aviator-hud {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.aviator-mult {
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-weight: 900;
+  font-size: 84px;
+  line-height: 1;
+  text-shadow: 0 6px 26px rgba(0, 0, 0, 0.55);
+}
+
+.aviator-mult.crash {
+  animation: aviatorShake 0.45s ease-in-out infinite;
+}
+
+.aviator-hint {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.aviator-tag {
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+.aviator-tag.win {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: var(--green);
+}
+
+.aviator-tag.crash {
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: var(--red);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.aviator-live {
+  animation: glowPulse 0.9s ease-in-out infinite;
+}
+
+@keyframes aviatorShake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-6px, 2px) rotate(-2deg); }
+  50% { transform: translate(5px, -3px) rotate(2deg); }
+  75% { transform: translate(-4px, -1px); }
+}

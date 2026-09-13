@@ -89,7 +89,17 @@ export function RouletteGame() {
     const ballTarget = -randomBallAngle();
     ballRef.current = ballTarget;
 
-    updatePlayer(active.id, (p) => ({ ...p, balance: p.balance - stake }));
+    const ret = computeReturn(currentBets, win);
+    const profit = ret - stake;
+    const won = ret > 0;
+
+    // Assenta o resultado 100% no início: se sair da tela ou recarregar no
+    // meio da animação, o saldo e as estatísticas já estão corretos.
+    updatePlayer(active.id, (p) => ({
+      ...p,
+      balance: p.balance - stake + ret,
+      stats: recordResult(p.stats, won, profit, ret, stake),
+    }));
     setBets({});
     setResult(null);
     setWinNumber(null);
@@ -110,21 +120,10 @@ export function RouletteGame() {
 
     timeouts.current.push(
       window.setTimeout(() => {
-        const ret = computeReturn(currentBets, win);
         setResult(win);
         setWinNumber(win);
         setHistory((h) => [win, ...h].slice(0, 14));
         setSpinning(false);
-
-        updatePlayer(active.id, (p) => {
-          const profit = ret - stake;
-          const won = ret > 0;
-          return {
-            ...p,
-            balance: p.balance + ret,
-            stats: recordResult(p.stats, won, profit, ret, stake),
-          };
-        });
 
         if (ret > 0) {
           playSfx(ret >= stake * 10 ? "jackpot" : "win");

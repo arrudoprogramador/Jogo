@@ -8,6 +8,7 @@ import {
   buildWedges,
 } from "../lib/roulette";
 import { spinSlots, buildReelStrip, SLOT_SYMBOLS } from "../lib/slots";
+import { crashPoint, multAtElapsed, crashTimeMs } from "../lib/aviator";
 
 const failures = new Set<string>();
 function check(cond: boolean, msg: string) {
@@ -84,6 +85,30 @@ for (const sym of SLOT_SYMBOLS) {
   check(strip.length === 24, `strip 24 (${sym.id})`);
   check(strip[6].id === sym.id, `alvo ${sym.id} no centro`);
 }
+
+// --- Aviator (crash) ---
+let avTotalReturn = 0;
+let avMinMult = Infinity;
+let avMaxMult = 0;
+const AV_N = 300000;
+const CASHOUT = 2.0;
+for (let i = 0; i < AV_N; i++) {
+  const m = crashPoint();
+  if (m < avMinMult) avMinMult = m;
+  if (m > avMaxMult) avMaxMult = m;
+  avTotalReturn += m > CASHOUT ? CASHOUT : 0;
+}
+check(avMinMult >= 1, `multiplicador mínimo >= 1 (${avMinMult})`);
+check(avMaxMult <= 5000, `multiplicador máximo respeita cap (${avMaxMult})`);
+const avRtp = avTotalReturn / AV_N;
+console.log(`RTP aviator (${AV_N} rondas, saque fixo ${CASHOUT}x): ${(avRtp * 100).toFixed(2)}%`);
+check(avRtp > 0.9 && avRtp < 1.04, `RTP aviator ~97% (${avRtp.toFixed(3)})`);
+
+const probe = crashPoint();
+check(crashTimeMs(2) > 0, "crashTimeMs positivo");
+check(Math.abs(multAtElapsed(0) - 1) < 1e-9, "mult começa em 1x");
+check(multAtElapsed(8.4) > 2, "mult sobe com o tempo");
+check(multAtElapsed(0) <= probe && probe <= 5000, "crashPoint no range");
 
 if (failures.size === 0) {
   console.log("✓ TODOS OS TESTES PASSARAM");

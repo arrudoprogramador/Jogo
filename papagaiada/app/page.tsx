@@ -7,6 +7,7 @@ import { LoginScreen } from "@/components/LoginScreen";
 import { Lobby } from "@/components/Lobby";
 import { RouletteGame } from "@/components/RouletteGame";
 import { SlotsGame } from "@/components/SlotsGame";
+import { AviatorGame } from "@/components/AviatorGame";
 import { ProfileScreen } from "@/components/ProfileScreen";
 import { NavBar, type NavRoute } from "@/components/NavBar";
 import { RankingSidebar } from "@/components/RankingSidebar";
@@ -29,7 +30,7 @@ function App() {
           <div className="flex-col center" style={{ gap: 12 }}>
             <div className="floaty" style={{ fontSize: 54 }}>🦜</div>
             <div style={{ fontFamily: "var(--font-poppins), sans-serif", fontWeight: 800 }}>
-              PAPAGAIADA
+              VEGAS PRIME
             </div>
           </div>
         </div>
@@ -39,7 +40,7 @@ function App() {
 
   if (!active) return <LoginScreen />;
 
-  const inGame = screen === "roulette" || screen === "slots";
+  const inGame = screen === "roulette" || screen === "slots" || screen === "aviator";
 
   return (
     <div className="app-shell">
@@ -68,11 +69,13 @@ function App() {
                 <Lobby
                   onRoulette={() => go("roulette")}
                   onSlots={() => go("slots")}
+                  onAviator={() => go("aviator")}
                   onProfile={() => go("profile")}
                 />
               ) : null}
               {screen === "roulette" ? <RouletteGame /> : null}
               {screen === "slots" ? <SlotsGame /> : null}
+              {screen === "aviator" ? <AviatorGame /> : null}
               {screen === "profile" ? <ProfileScreen /> : null}
             </motion.div>
           </AnimatePresence>

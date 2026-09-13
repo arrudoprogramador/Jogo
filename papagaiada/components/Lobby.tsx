@@ -7,10 +7,12 @@ import { CURRENCY, DAILY_BONUS, RESCUE_AMOUNT } from "@/lib/types";
 export function Lobby({
   onRoulette,
   onSlots,
+  onAviator,
   onProfile,
 }: {
   onRoulette: () => void;
   onSlots: () => void;
+  onAviator: () => void;
   onProfile: () => void;
 }) {
   const { active, claimDaily, claimRescue, pushToast, playSfx } = useGame();
@@ -98,6 +100,25 @@ export function Lobby({
           </p>
           <span className="btn btn-gold btn-sm" style={{ alignSelf: "flex-start" }}>
             Jogar caça-níqueis
+          </span>
+        </motion.button>
+
+        <motion.button
+          className="game-card"
+          whileHover={{ y: -4 }}
+          onClick={() => {
+            playSfx("chip");
+            onAviator();
+          }}
+        >
+          <span className="icon">✈️</span>
+          <h3>Aviator</h3>
+          <p>
+            O multiplicador sobe a cada segundo enquanto o avião sobe. Sacar antes do
+            <b> crash</b> e multiplicar sua aposta até 2500x.
+          </p>
+          <span className="btn btn-gold btn-sm" style={{ alignSelf: "flex-start" }}>
+            Jogar aviator
           </span>
         </motion.button>
       </div>

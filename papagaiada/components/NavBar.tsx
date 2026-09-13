@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useGame } from "@/lib/store";
 import { BalancePill } from "@/components/Balance";
 
-export type NavRoute = "lobby" | "roulette" | "slots" | "profile";
+export type NavRoute = "lobby" | "roulette" | "slots" | "aviator" | "profile";
 
 interface Props {
   route: NavRoute;
@@ -19,12 +19,13 @@ const DIRECT_NAV: { id: NavRoute; label: string }[] = [
   { id: "lobby", label: "Início" },
   { id: "roulette", label: "Roleta" },
   { id: "slots", label: "Caça-Níqueis" },
+  { id: "aviator", label: "Aviator" },
   { id: "profile", label: "Perfil" },
 ];
 
 const brand = () => (
   <span className="logo-text">
-    PAPA<span className="accent">GAIADA</span>
+    VEGAS<span className="accent"> PRIME</span>
   </span>
 );
 

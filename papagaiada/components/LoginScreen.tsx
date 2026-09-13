@@ -41,7 +41,7 @@ export function LoginScreen() {
               🦜
             </div>
             <h1 style={{ fontSize: 30 }}>
-              PAPA<span style={{ color: "var(--gold)" }}>GAIADA</span>
+              VEGAS<span style={{ color: "var(--gold)" }}> PRIME</span>
             </h1>
             <p style={{ fontSize: 12, letterSpacing: 3, color: "var(--gold)", fontWeight: 700 }}>
               CASINO PREMIUM · 100% FICTÍCIO

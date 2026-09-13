@@ -137,9 +137,51 @@ async function main() {
     `slots consumiu/resultou saldo (${beforeSlots} → ${afterSlots})`,
   );
 
-  // ---- Back to lobby: perfil persistiu ----
+  // ---- Aviator: tela abre, voo inicia e multiplicador sobe ----
   await page.click("button[title='Voltar']");
   await waitText(page, "Jogos");
+  await clickByText(page, "Jogar aviator");
+  await waitText(page, "AVIATOR");
+  await waitText(page, "Iniciar voo");
+
+  const balBeforeFlight = await readBalance(page);
+  await clickByText(page, "Iniciar voo");
+  await page.waitForFunction(() => /(\d+\.\d+)x/.test(document.body.innerText), {
+    timeout: 5000,
+  });
+  await sleep(1200);
+  const sawRising = await page.evaluate(() => {
+    const m = document.body.innerText.match(/(\d+\.\d+)x/);
+    return m ? Number(m[1]) : 0;
+  });
+  check(sawRising > 1, `aviator mostra multiplicador subindo (${sawRising.toFixed(2)}x)`);
+
+  // Abandonar no meio do voo não pode perder saldo nem travar a tela.
+  await page.click("button[title='Voltar']");
+  await waitText(page, "Jogos");
+  const balAfterBail = await readBalance(page);
+  check(balAfterBail === balBeforeFlight, `abandonar voo não debita saldo (${balAfterBail})`);
+
+  // Reabrir e sacar: net > 0 e saldo sobe.
+  await clickByText(page, "Jogar aviator");
+  await waitText(page, "Iniciar voo");
+  const balBeforeCash = await readBalance(page);
+  await clickByText(page, "Iniciar voo");
+  await page.waitForFunction(() => /(\d+\.\d+)x/.test(document.body.innerText), {
+    timeout: 5000,
+  });
+  await sleep(400);
+  await clickByText(page, "Sacar");
+  await sleep(1200);
+  const balAfterCash = await readBalance(page);
+  check(
+    balAfterCash > balBeforeCash,
+    `aviator credita prêmio no saque (${balBeforeCash} → ${balAfterCash})`,
+  );
+  await page.click("button[title='Voltar']");
+  await waitText(page, "Jogos");
+
+  // ---- Saldo persiste no lobby ----
   const balPersisted = await readBalance(page);
   check(balPersisted > 0, `saldo persiste no lobby (${balPersisted})`);
 

@@ -44,12 +44,16 @@ export function SlotsGame() {
 
     const res = spinSlots();
     const pays = res.pays * bet;
+    const won = res.pays > 0;
 
-    setReels(res.symbols.map((sym) => buildReelStrip(sym, STRIP_LEN).map((s) => s.icon)));
+    // Assenta saldo/estatísticas já no início: sair no meio da animação não
+    // perde dinheiro, e recarregar mantém o resultado correto.
     updatePlayer(active.id, (p) => ({
       ...p,
-      balance: p.balance - bet,
+      balance: p.balance - bet + pays,
+      stats: recordResult(p.stats, won, pays - bet, pays, bet),
     }));
+    setReels(res.symbols.map((sym) => buildReelStrip(sym, STRIP_LEN).map((s) => s.icon)));
     setResult(null);
     setJackpotAnim(false);
     setSpinning(true);
@@ -58,12 +62,6 @@ export function SlotsGame() {
 
     timeouts.current.forEach(clearTimeout);
     const done = window.setTimeout(() => {
-      const won = res.pays > 0;
-      updatePlayer(active.id, (p) => ({
-        ...p,
-        balance: p.balance + pays,
-        stats: recordResult(p.stats, won, pays - bet, pays, bet),
-      }));
       setResult({ icons: res.symbols.map((s) => s.icon), pays, jackpot: res.jackpot });
       setSpinning(false);
 
